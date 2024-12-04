@@ -1,26 +1,39 @@
 import java.io.File
 
 fun getInput(fileName: String): File {
-    return File(object{}.javaClass.getResource("/${fileName}.txt")!!.file)
+    return File(object {}.javaClass.getResource("/${fileName}.txt")!!.file)
 }
 
 val lineSeparator: String = System.lineSeparator()
 
-enum class Facing(private val dx: Int, private val dy: Int, private val diagonals: List<Pair<Int, Int>>) {
-    EAST(1, 0, listOf(1 to -1, 1 to 1)),
-    SOUTH(0, 1, listOf(-1 to 1, 1 to 1)),
-    WEST(-1, 0, listOf(-1 to -1, -1 to 1)),
-    NORTH(0, -1, listOf(-1 to -1, 1 to -1));
+enum class Facing(private val dx: Int, private val dy: Int) {
+    EAST(1, 0),
+    SOUTH(0, 1),
+    WEST(-1, 0),
+    NORTH(0, -1),
+    NORTHEAST(1, -1),
+    SOUTHEAST(1, 1),
+    SOUTHWEST(-1, 1),
+    NORTHWEST(-1, -1);
+
+    companion object {
+        val orthogonals = listOf(EAST, SOUTH, WEST, NORTH)
+        val diagonals = listOf(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST)
+    }
 
     fun move(pos: Pair<Int, Int>) = (pos.first + dx) to (pos.second + dy)
 
-    fun look(pos: Pair<Int, Int>) = (diagonals + (dx to dy)).map { pos.first + it.first to pos.second + it.second }
+    fun moveBack(pos: Pair<Int, Int>) = (pos.first - dx) to (pos.second - dy)
 
     fun turnLeft() = when (this) {
         EAST -> NORTH
         SOUTH -> EAST
         WEST -> SOUTH
         NORTH -> WEST
+        NORTHEAST -> NORTHWEST
+        SOUTHEAST -> NORTHEAST
+        SOUTHWEST -> SOUTHEAST
+        NORTHWEST -> SOUTHWEST
     }
 
     fun turnRight() = when (this) {
@@ -28,5 +41,9 @@ enum class Facing(private val dx: Int, private val dy: Int, private val diagonal
         SOUTH -> WEST
         WEST -> NORTH
         NORTH -> EAST
+        NORTHEAST -> SOUTHEAST
+        SOUTHEAST -> SOUTHWEST
+        SOUTHWEST -> NORTHWEST
+        NORTHWEST -> NORTHEAST
     }
 }
