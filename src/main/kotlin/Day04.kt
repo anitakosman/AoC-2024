@@ -5,7 +5,7 @@ fun main() {
             if (c != 'X') {
                 0
             } else {
-                Facing.entries.count { spellsXmas(it, x, y, input) }
+                Direction.entries.count { spellsXmas(it, x, y, input) }
             }
         }
     })
@@ -14,13 +14,13 @@ fun main() {
             if (c != 'A') {
                 0
             } else {
-                Facing.diagonals.count { spellsMas(it, x, y, input) }
+                Direction.diagonals.count { spellsMas(it, x, y, input) }
             }
         }
     })
 }
 
-fun spellsXmas(direction: Facing, x: Int, y: Int, input: List<CharArray>): Boolean {
+fun spellsXmas(direction: Direction, x: Int, y: Int, input: List<CharArray>): Boolean {
     var pos = x to y
     val m = input[0].size
     val n = input.size
@@ -39,7 +39,7 @@ fun spellsXmas(direction: Facing, x: Int, y: Int, input: List<CharArray>): Boole
     return !(pos.first !in 0 until m || pos.second !in 0 until n || input[pos.second][pos.first] != 'S')
 }
 
-fun spellsMas(direction: Facing, x: Int, y: Int, input: List<CharArray>): Boolean {
+fun spellsMas(direction: Direction, x: Int, y: Int, input: List<CharArray>): Boolean {
     val pos = x to y
     val m = input[0].size
     val n = input.size

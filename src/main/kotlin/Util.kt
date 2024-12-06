@@ -6,7 +6,7 @@ fun getInput(fileName: String): File {
 
 val lineSeparator: String = System.lineSeparator()
 
-enum class Facing(private val dx: Int, private val dy: Int) {
+enum class Direction(private val dx: Int, private val dy: Int) {
     EAST(1, 0),
     SOUTH(0, 1),
     WEST(-1, 0),
@@ -21,9 +21,9 @@ enum class Facing(private val dx: Int, private val dy: Int) {
         val diagonals = listOf(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST)
     }
 
-    fun move(pos: Pair<Int, Int>) = (pos.first + dx) to (pos.second + dy)
+    fun move(pos: Pos) = (pos.first + dx) to (pos.second + dy)
 
-    fun moveBack(pos: Pair<Int, Int>) = (pos.first - dx) to (pos.second - dy)
+    fun moveBack(pos: Pos) = (pos.first - dx) to (pos.second - dy)
 
     fun turnLeft() = when (this) {
         EAST -> NORTH
@@ -47,3 +47,5 @@ enum class Facing(private val dx: Int, private val dy: Int) {
         NORTHWEST -> NORTHEAST
     }
 }
+
+typealias Pos = Pair<Int, Int>
