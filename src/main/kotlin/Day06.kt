@@ -26,7 +26,7 @@ fun walk(initialGuard: Guard, obstacles: Set<Pos>, m: Int, n: Int, createObstacl
     val visitedPositions = mutableSetOf<Guard>()
     val obstaclePositionsCreatingLoop = mutableSetOf<Pos>()
     var guard = initialGuard
-    while (guard.pos.first in 0 until m && guard.pos.second in 0 until n && guard !in visitedPositions) {
+    while (guard.pos.x in 0 until m && guard.pos.y in 0 until n && guard !in visitedPositions) {
         visitedPositions.add(guard)
         val forward = guard.direction.move(guard.pos)
         if (forward in obstacles) {
