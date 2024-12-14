@@ -1,5 +1,4 @@
 import java.io.File
-import kotlin.math.abs
 import kotlin.math.sign
 
 fun getInput(fileName: String): File {
@@ -51,10 +50,15 @@ enum class Direction(private val dx: Int, private val dy: Int) {
 }
 
 typealias Pos = Pair<Int, Int>
-
 val Pos.x: Int
     get() = first
 val Pos.y: Int
+    get() = second
+
+typealias Dir = Pair<Int, Int>
+val Dir.dx: Int
+    get() = first
+val Dir.dy: Int
     get() = second
 
 data class Rational(val nominator: Int, val denominator: Int = 1) {
