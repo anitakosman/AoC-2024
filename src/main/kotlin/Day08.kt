@@ -15,7 +15,7 @@ fun main() {
     val lines = getLines(antennas)
     println((0 until m).sumOf { x ->
         (0 until n).count { y ->
-            lines.any { (a, b) -> a * x + b == Rational(y) }
+            lines.any { (a, b) -> a * x.toBigInteger() + b == Rational(y.toBigInteger()) }
         }
     })
 }
@@ -40,8 +40,8 @@ fun getAntinodes(antennas: Map<Char, Set<Pos>>, m: Int, n: Int): Set<Pos> {
 fun getLines(antennas: Map<Char, Set<Pos>>): Set<Pair<Rational, Rational>> {
     return antennas.keys.flatMap { c ->
         antennas[c]!!.pairs().map { (p1, p2) ->
-            val a = Rational(p2.y - p1.y, p2.x - p1.x).simplify()
-            val b = Rational(p1.y) - a * p1.x
+            val a = Rational((p2.y - p1.y).toBigInteger(), (p2.x - p1.x).toBigInteger()).simplify()
+            val b = Rational(p1.y.toBigInteger()) - a * p1.x.toBigInteger()
             Pair(a, b) // ax + b
         }
     }.toSet()

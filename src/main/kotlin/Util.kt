@@ -1,5 +1,5 @@
 import java.io.File
-import kotlin.math.sign
+import java.math.BigInteger
 
 fun getInput(fileName: String): File {
     return File(object {}.javaClass.getResource("/${fileName}.txt")!!.file)
@@ -61,13 +61,11 @@ val Dir.dx: Int
 val Dir.dy: Int
     get() = second
 
-data class Rational(val nominator: Int, val denominator: Int = 1) {
+data class Rational(val nominator: BigInteger, val denominator: BigInteger = BigInteger.ONE) {
     fun simplify(): Rational {
         val gcd = gcd(nominator, denominator)
-        return Rational(nominator * denominator.sign / gcd, denominator * denominator.sign / gcd)
+        return Rational(nominator * denominator.signum().toBigInteger() / gcd, denominator * denominator.signum().toBigInteger() / gcd)
     }
-
-    operator fun times(x: Int) = Rational(nominator * x, denominator).simplify()
 
     operator fun plus(other: Rational): Rational {
         val lcm = lcm(this.denominator, other.denominator)
@@ -75,10 +73,44 @@ data class Rational(val nominator: Int, val denominator: Int = 1) {
     }
 
     operator fun minus(other: Rational) = this + Rational(-other.nominator, other.denominator)
+
+    operator fun times(other: Rational) = Rational(nominator * other.nominator, denominator * other.denominator).simplify()
+
+    operator fun times(x: BigInteger) = this * Rational(x)
+
+    operator fun div(other: Rational) = this * Rational(other.denominator, other.nominator)
+
+    operator fun unaryMinus() = this * Rational(BigInteger.valueOf(-1))
+
+    operator fun compareTo(other: Rational): Int =
+        (this.nominator * other.denominator).compareTo(other.nominator * this.denominator)
+
+    override fun equals(other: Any?): Boolean {
+        when (other) {
+            is Rational -> {
+                val simplified = this.simplify()
+                val otherSimplified = other.simplify()
+                return simplified.nominator == otherSimplified.nominator && simplified.denominator == otherSimplified.denominator
+            }
+
+            is BigInteger -> {
+                val simplified = this.simplify()
+                return simplified.nominator == other && simplified.denominator == BigInteger.ONE
+            }
+
+            else -> {
+                return false
+            }
+        }
+    }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
+    }
 }
 
-operator fun Int.times(rational: Rational) = rational.times(this)
+operator fun BigInteger.times(rational: Rational) = rational.times(this)
 
-fun gcd(x: Int, y: Int) = x.toBigInteger().gcd(y.toBigInteger()).toInt()
+fun gcd(x: BigInteger, y: BigInteger): BigInteger = x.gcd(y)
 
-fun lcm(x: Int, y: Int) = ((x * y) / gcd(x, y))
+fun lcm(x: BigInteger, y: BigInteger) = ((x * y) / gcd(x, y))
