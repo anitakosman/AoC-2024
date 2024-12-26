@@ -1,6 +1,6 @@
 fun main() {
     val antennas = mutableMapOf<Char, MutableSet<Pos>>()
-    val input = getInput("day8").readText().lines()
+    val input = getInput("day8").readLines()
     input.withIndex().forEach { (y, line) ->
         line.withIndex().forEach { (x, c) ->
             if (c != '.')

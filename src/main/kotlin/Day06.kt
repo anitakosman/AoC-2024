@@ -1,13 +1,13 @@
 import Direction.*
 
 fun main() {
-    var guard = Guard(0 to 0, NORTH)
+    var guard = Movable(0 to 0, NORTH)
     val obstacles = mutableSetOf<Pos>()
-    val input = getInput("day6").readText().lines()
+    val input = getInput("day6").readLines()
     input.withIndex().forEach { (y, line) ->
         line.withIndex().forEach { (x, c) ->
             when (c) {
-                '^' -> guard = Guard(x to y, NORTH)
+                '^' -> guard = Movable(x to y, NORTH)
                 '#' -> obstacles.add(x to y)
             }
         }
@@ -22,8 +22,8 @@ fun main() {
     println(obstaclePositionsCreatingLoop)
 }
 
-fun walk(initialGuard: Guard, obstacles: Set<Pos>, m: Int, n: Int, createObstacle: Boolean = false): Triple<Int, Boolean, Int> {
-    val visitedPositions = mutableSetOf<Guard>()
+fun walk(initialGuard: Movable, obstacles: Set<Pos>, m: Int, n: Int, createObstacle: Boolean = false): Triple<Int, Boolean, Int> {
+    val visitedPositions = mutableSetOf<Movable>()
     val obstaclePositionsCreatingLoop = mutableSetOf<Pos>()
     var guard = initialGuard
     while (guard.pos.x in 0 until m && guard.pos.y in 0 until n && guard !in visitedPositions) {
@@ -44,8 +44,8 @@ fun walk(initialGuard: Guard, obstacles: Set<Pos>, m: Int, n: Int, createObstacl
     return Triple(visitedPositions.map { it.pos }.toSet().size, guard in visitedPositions, obstaclePositionsCreatingLoop.size)
 }
 
-data class Guard(val pos: Pos, val direction: Direction) {
-    fun turnRight() = Guard(this.pos, this.direction.turnRight())
+data class Movable(val pos: Pos, val direction: Direction) {
+    fun turnRight() = Movable(this.pos, this.direction.turnRight())
 
-    fun move() = Guard(this.direction.move(this.pos), this.direction)
+    fun move() = Movable(this.direction.move(this.pos), this.direction)
 }

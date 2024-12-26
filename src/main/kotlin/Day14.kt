@@ -1,5 +1,5 @@
 fun main() {
-    val input = getInput("day14").readText().lines()
+    val input = getInput("day14").readLines()
         .map { Regex("p=(\\d+),(\\d+) v=(-?\\d+),(-?\\d+)").matchEntire(it)!!.groups }
         .map { Pos(it[1]!!.value.toInt(), it[2]!!.value.toInt()) to Dir(it[3]!!.value.toInt(), it[4]!!.value.toInt()) }
 

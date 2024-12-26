@@ -1,5 +1,5 @@
 fun main() {
-    val input = getInput("day10").readText().lines().flatMapIndexed { y, line ->
+    val input = getInput("day10").readLines().flatMapIndexed { y, line ->
         line.mapIndexed() { x, c -> Pos(x, y) to c.toString().toInt() }
     }.toMap()
     var scores = input.filterValues { it == 9 }.mapValues { listOf(it) }

@@ -1,5 +1,5 @@
 fun main() {
-    val input = getInput("day7").readText().lines().map { line ->
+    val input = getInput("day7").readLines().map { line ->
         with(line.split(": ")) {
             this[0].toLong() to this[1].split(" ").map { it.toLong() }
         }

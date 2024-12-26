@@ -1,5 +1,5 @@
 fun main() {
-    val input = getInput("day4").readText().lines().map { it.toCharArray() }
+    val input = getInput("day4").readLines().map { it.toCharArray() }
     println(input.withIndex().sumOf { (y, line) ->
         line.withIndex().sumOf { (x, c) ->
             if (c != 'X') {

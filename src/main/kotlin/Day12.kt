@@ -1,5 +1,5 @@
 fun main() {
-    val input = getInput("day12").readText().lines()
+    val input = getInput("day12").readLines()
     val m = input[0].length
     val n = input.size
     val plots = mutableSetOf<Set<Pos>>()
