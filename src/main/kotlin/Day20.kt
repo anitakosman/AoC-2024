@@ -59,13 +59,13 @@ private fun getPossibleCheats(reachablePositions: Set<Pos>, walls: Set<Pos>, m: 
     val possibleCheats = mutableMapOf<Pos, MutableMap<Pos, Int>>()
     reachablePositions.forEach { cheatStart ->
         val visitedCheatPositions = mutableSetOf<Pos>()
-        var currentCheatPositions = Direction.orthogonals.map { it.move(cheatStart) }.filter { it in walls }.toSet()
+        var currentCheatPositions = Direction.orthogonals.map { it.move(cheatStart) }.toSet()
         var cheatLength = 1
         while (currentCheatPositions.isNotEmpty() && cheatLength < 21) {
             visitedCheatPositions.addAll(currentCheatPositions)
             currentCheatPositions.forEach { if (it !in walls) possibleCheats.getOrPut(cheatStart, ::mutableMapOf).putIfAbsent(it, cheatLength) }
             currentCheatPositions = currentCheatPositions
-                .flatMap { p -> if (p in walls) Direction.orthogonals.map { it.move(p) } else listOf() }
+                .flatMap { p -> Direction.orthogonals.map { it.move(p) } }
                 .filter { it !in visitedCheatPositions && inGrid(it, m, n) }.toSet()
             cheatLength++
         }
